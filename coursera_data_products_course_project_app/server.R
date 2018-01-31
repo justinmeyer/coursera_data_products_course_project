@@ -14,10 +14,16 @@ shinyServer(function(input, output) {
    
   output$distPlot <- renderPlot({
     
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    # Get data
+    loans <- read.csv("F:/Professional Development/coursera_data_products/coursera_data_products_course_project/coursera_data_products_course_project_app/LoanStats3a.csv")
+
+    # Format data
+    loans <- subset(loans, !is.na(loan_amnt))
     
+    # generate bins based on input$bins from ui.R
+    x <- loans$loan_amnt
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
     # draw the histogram with the specified number of bins
     hist(x, breaks = bins, col = 'darkgray', border = 'white')
     
