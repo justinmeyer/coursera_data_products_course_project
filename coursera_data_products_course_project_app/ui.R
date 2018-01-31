@@ -8,6 +8,8 @@
 #
 
 library(shiny)
+library(ggplot2)
+library(dplyr)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -18,11 +20,10 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
+            sliderInput("amountInput", "Loan Amount", min = 0, max = 50000,
+                        value = c(0, 50000)),
+            selectInput("statusInput", "Status",
+                        choices = c("Charged Off", "Fully Paid"))
     ),
     
     # Show a plot of the generated distribution
