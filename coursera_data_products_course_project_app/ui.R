@@ -1,32 +1,37 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
+# ui.R
 
 library(shiny)
-library(ggplot2)
-library(dplyr)
 
-# Define UI for application that draws a histogram
+# Define UI
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Data"),
-  
-  # Sidebar with a slider input for number of bins 
+  titlePanel("Lending Club Data Explorer"),
+  fluidRow("Use the filters below to explore Lending Club peer-to-peer loan data. Be patient, the chart takes time to load."),
+  # Sidebar with inputs
   sidebarLayout(
     sidebarPanel(
-            sliderInput("amountInput", "Loan Amount", min = 0, max = 50000,
-                        value = c(0, 50000)),
-            selectInput("statusInput", "Status",
-                        choices = c("Charged Off", "Fully Paid"))
+            sliderInput("amountInput", "Loan Amount", min = 0, max = 35000,
+                        value = c(0, 35000)),
+            sliderInput("installmentInput", "Installment Amount", min = 0, max = 1500,
+                        value = c(0, 1500)),
+            sliderInput("dtiInput", "Debt to Income Ratio", min = 0, max = 30,
+                        value = c(0, 30)),
+            checkboxGroupInput("gradeInput", "Grade",
+                               c("A" = "A",
+                                 "B" = "B",
+                                 "C" = "C",
+                                 "D" = "D",
+                                 "E" = "E",
+                                 "F" = "F",
+                                 "G" = "G"),
+                               selected = c("A", "B", "C", "D", "E", "F", "G")),
+            sliderInput("yearInput", "Year", min = 2007, max = 2011,
+                        value = c(2007, 2011))
+            
     ),
     
-    # Show a plot of the generated distribution
+    # Show plot
     mainPanel(
        plotOutput("distPlot")
     )
