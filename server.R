@@ -6,7 +6,7 @@ library(dplyr)
 
 # Get data
 # Data from https://www.lendingclub.com/info/download-data.action, select 2007-2011 data.        
-loans <- read.csv("C:/Users/Toshiba1/Documents/Professional Development/Coursera - Data Products/course_project/coursera_data_products_course_project/coursera_data_products_course_project_app/LoanStats3a.csv", 
+loans <- read.csv("C:/Users/Toshiba1/Documents/Professional Development/Coursera - Data Products/course_project/coursera_data_products_course_project/LoanStats3a.csv", 
                   skip = 1,
                   stringsAsFactors = FALSE)
 
