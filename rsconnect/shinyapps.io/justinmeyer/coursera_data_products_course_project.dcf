@@ -1,0 +1,13 @@
+name: coursera_data_products_course_project
+title: coursera_data_products_course_project
+username:
+account: justinmeyer
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 268539
+bundleId: 1202277
+url: https://justinmeyer.shinyapps.io/coursera_data_products_course_project/
+when: 1517455574.00867
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: LCDataDictionary.xlsx|README.md
