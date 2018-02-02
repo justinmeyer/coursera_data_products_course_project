@@ -1,4 +1,4 @@
-Lending Club Explorer
+Lending Club Data Explorer
 ========================================================
 author: Justin Meyer
 date: 2/2/2018
@@ -7,7 +7,9 @@ autosize: true
 What is Peer-to-Peer Lending?
 ========================================================
 
-*Peer-to-Peer* or "P2P" lending is a way for borrowers to borrow money directly from individual lenders rather than from banks.
+*Peer-to-Peer* or "P2P" lending is a way for borrowers to borrow money directly from individual lenders rather than from banks.  
+
+Many people are using this as a way to diversify their investment portfolios.
 
 Peer-to-Peer Lending Companies
 ========================================================
@@ -30,39 +32,35 @@ Lending Club Data
 
 ```{r echo = FALSE}
 
-loans <- read.csv("coursera_data_products_course_project_app/LoanStats3a.csv", 
+loans <- read.csv("LoanStats3a.csv", 
                   skip = 1,
                   stringsAsFactors = FALSE)
 
-
-
-
 ```
 
-Lending Club has made data publicly available for analysis purposes. One dataset is from 2007 to 2011. There are `r prettyNum(nrow(loans), big.mark = ",")` loans in the dataset. Some loans were paid back, others were not:
+Lending Club has made data publicly available for analysis purposes. There are `r prettyNum(nrow(loans), big.mark = ",")` loans in the dataset from 2007 to 2011:
 
 ```{r, echo=FALSE, results='asis'}
 
 # Format data
 library(data.table)
 temp <- data.table(loans)
+temp$counter <- 1
+temp$year <- as.numeric(substr(temp$issue_d, 5, 8))
+
+temp <- subset(temp, !is.na(year))
 
 results <- as.data.frame(temp[,list(
-  N_GRADS = length(unique(LDS_STUDENT_KEY[GRAD_IND=="Y"])),
-  N_STUDENTS = length(unique(LDS_STUDENT_KEY))
-),by=key(HSC)])
-
-results$GRAD_RATE <- NA
-results$GRAD_RATE <- round(results$N_GRADS/results$N_STUDENTS,digits=3)
+  number_of_loans = sum(counter)),
+  by = year])
 
 # Make table
-library(data.table)
-results$GRAD_RATE <- paste0(round(results$GRAD_RATE * 100, 1), "%")
-results <- results[with(results, order(results$COHORT, results$RATE_SCHOOL_YEAR)),]
-results <- results[, c("COHORT", "RATE_SCHOOL_YEAR", "N_GRADS", "N_STUDENTS", "GRAD_RATE")]
-setnames(results, old=c("RATE_SCHOOL_YEAR", "COHORT", "N_GRADS", "N_STUDENTS", "GRAD_RATE"), 
-         new=c("Year", "Cohort", "Number Graduates", "Number Possible", "Graduation Rate"))
-kable(prettyNum(results, big.mark = ","), row.names = FALSE)
+setnames(results, old = c("year", "number_of_loans"), 
+         new=c("Year", "Number of Loans"))
+library(knitr)
+kable(results, row.names = FALSE)
+
+rm(loans, temp, results)
 
 ```
 
