@@ -14,7 +14,7 @@ Many people are using this as a way to diversify their investment portfolios.
 Peer-to-Peer Lending Companies
 ========================================================
 
-Peer to peer lending companies Two companies that facilitate P2P lending in the United States are:  
+Two companies that facilitate P2P lending in the United States are:  
 1. [Prosper](https://www.prosper.com/)  
 2. [Lending Club](https://www.lendingclub.com/)  
 
@@ -24,8 +24,6 @@ How to Effectively Invest in P2P Lending
 ========================================================
 
 Lenders who loan money to borrowers earn interest. Their potential profit is not risk-free though. The borrower might not pay back the loan!  
-
-In order to predict which borrowers to invest in lenders may want to inspect the data to see if there are some clues that indicate which borrowers are likely to repay loans and which are not.  
 
 Lending Club Data
 ========================================================
@@ -37,6 +35,8 @@ loans <- read.csv("LoanStats3a.csv",
                   stringsAsFactors = FALSE)
 
 ```
+
+In order to predict which borrowers to invest in lenders may want to try to figure out if there are some clues that indicate which borrowers are likely to repay loans and which are not.  
 
 Lending Club has made data publicly available for analysis purposes. There are `r prettyNum(nrow(loans), big.mark = ",")` loans in the dataset from 2007 to 2011:
 
