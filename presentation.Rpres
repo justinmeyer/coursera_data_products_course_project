@@ -1,0 +1,74 @@
+Lending Club Explorer
+========================================================
+author: Justin Meyer
+date: 2/2/2018
+autosize: true
+
+What is Peer-to-Peer Lending?
+========================================================
+
+*Peer-to-Peer* or "P2P" lending is a way for borrowers to borrow money directly from individual lenders rather than from banks.
+
+Peer-to-Peer Lending Companies
+========================================================
+
+Peer to peer lending companies Two companies that facilitate P2P lending in the United States are:  
+1. [Prosper](https://www.prosper.com/)  
+2. [Lending Club](https://www.lendingclub.com/)  
+
+These companies connect borrowers with lenders.
+
+How to Effectively Invest in P2P Lending
+========================================================
+
+Lenders who loan money to borrowers earn interest. Their potential profit is not risk-free though. The borrower might not pay back the loan!  
+
+In order to predict which borrowers to invest in lenders may want to inspect the data to see if there are some clues that indicate which borrowers are likely to repay loans and which are not.  
+
+Lending Club Data
+========================================================
+
+```{r echo = FALSE}
+
+loans <- read.csv("coursera_data_products_course_project_app/LoanStats3a.csv", 
+                  skip = 1,
+                  stringsAsFactors = FALSE)
+
+
+
+
+```
+
+Lending Club has made data publicly available for analysis purposes. One dataset is from 2007 to 2011. There are `r prettyNum(nrow(loans), big.mark = ",")` loans in the dataset. Some loans were paid back, others were not:
+
+```{r, echo=FALSE, results='asis'}
+
+# Format data
+library(data.table)
+temp <- data.table(loans)
+
+results <- as.data.frame(temp[,list(
+  N_GRADS = length(unique(LDS_STUDENT_KEY[GRAD_IND=="Y"])),
+  N_STUDENTS = length(unique(LDS_STUDENT_KEY))
+),by=key(HSC)])
+
+results$GRAD_RATE <- NA
+results$GRAD_RATE <- round(results$N_GRADS/results$N_STUDENTS,digits=3)
+
+# Make table
+library(data.table)
+results$GRAD_RATE <- paste0(round(results$GRAD_RATE * 100, 1), "%")
+results <- results[with(results, order(results$COHORT, results$RATE_SCHOOL_YEAR)),]
+results <- results[, c("COHORT", "RATE_SCHOOL_YEAR", "N_GRADS", "N_STUDENTS", "GRAD_RATE")]
+setnames(results, old=c("RATE_SCHOOL_YEAR", "COHORT", "N_GRADS", "N_STUDENTS", "GRAD_RATE"), 
+         new=c("Year", "Cohort", "Number Graduates", "Number Possible", "Graduation Rate"))
+kable(prettyNum(results, big.mark = ","), row.names = FALSE)
+
+```
+
+Lending Club Data Explorer
+========================================================
+
+To help lenders invest in the loans that are likely to be repaid and will earn the most interest, I built a Shiny app that allows the user to view the Lending Club data. Please click the link below to view the app.
+
+https://justinmeyer.shinyapps.io/coursera_data_products_course_project/
